@@ -1,19 +1,32 @@
 <script>
-	import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+	import { createUserWithEmailAndPassword } from 'firebase/auth';
+	import { auth } from '../firebase';
 
-	const auth = getAuth();
-	createUserWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			// Signed up
-			const user = userCredential.user;
-			// ...
-		})
-		.catch((error) => {
-			const errorCode = error.code;
-			const errorMessage = error.message;
-			// ..
-		});
+	let email = '',
+		password = '';
+
+	async function registration() {
+		await createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				// Signed up
+				const user = userCredential.user;
+				console.log(user);
+				// ...
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				console.log(errorMessage);
+				// ..
+			});
+	}
 </script>
 
 <h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<form on:submit|preventDefault={registration}>
+	<label for="email">Email</label>
+	<input type="text" name="email" bind:value={email} />
+	<label for="password">Password</label>
+	<input type="password" name="password" bind:value={password} />
+	<button type="submit">Daftar</button>
+</form>
