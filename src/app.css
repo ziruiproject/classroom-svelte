@@ -4,7 +4,7 @@
 
 .form-input {
     background-color: transparent;
-    @apply text-xl font-light w-full p-4 rounded-2xl outline-none ring ring-light-gray focus:ring-green;
+    @apply text-xl font-light w-full p-4 rounded-2xl outline-none stroke-none border-none ring-2 ring-light-gray focus:ring-green focus:ring-2;
 }
 
 @layer components {
