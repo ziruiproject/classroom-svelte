@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="text"] {
-
-  background-color : #171717; 
-
+@layer components {
+    .form {
+        @apply w-full p-4 rounded-2xl outline-none ring ring-light-gray bg-transparent focus:ring-green;
+    }
 }
