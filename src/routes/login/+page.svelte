@@ -51,5 +51,5 @@
 		<label for="password" class="label">Password</label>
 		<input type="password" name="password" bind:value={password} class="form-input" />
 	</div>
-	<button type="submit" class="bg-green py-4 text-xl rounded-2xl">Log in</button>
+	<button type="submit" class="button">Log in</button>
 </form>

@@ -13,6 +13,6 @@
     }
 
     .button {
-        @apply rounded-2xl;
+        @apply bg-green py-4 text-xl rounded-2xl;
     }
 }
