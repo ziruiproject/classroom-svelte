@@ -1,5 +1,5 @@
 <script>
-	import { db } from './../../../firebase.js';
+	import { db } from '$lib';
 	import { addDoc, collection } from 'firebase/firestore';
 
 	let title, date, time;

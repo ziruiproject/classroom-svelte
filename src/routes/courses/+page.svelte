@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { db } from '../../firebase';
+	import { db } from '$lib';
 	import { getDocs, collection } from 'firebase/firestore';
 
 	let courses = [];

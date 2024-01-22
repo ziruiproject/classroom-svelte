@@ -1,6 +1,6 @@
 <script>
 	import { createUserWithEmailAndPassword } from 'firebase/auth';
-	import { auth } from '../../firebase';
+	import { auth } from '$lib';
 
 	let email = '',
 		password = '';

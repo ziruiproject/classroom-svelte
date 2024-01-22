@@ -1,5 +1,5 @@
 <script>
-	import { storage } from '../../../firebase.js';
+	import { storage } from '$lib';
 	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 	let file, avatar, downloadURL;

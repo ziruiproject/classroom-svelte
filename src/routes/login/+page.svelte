@@ -1,6 +1,6 @@
 <script>
 	import { signInWithEmailAndPassword } from 'firebase/auth';
-	import { auth } from '../../firebase';
+	import { auth } from '$lib';
 	import { goto } from '$app/navigation';
 
 	let email = '',
@@ -21,7 +21,7 @@
 	}
 </script>
 
-<form on:submit|preventDefault={login}>
+<form on:submit|preventDefault={login} class="grid px-8 gap-y-4">
 	<label for="email">Email</label>
 	<input type="text" name="email" bind:value={email} />
 	<label for="password">Password</label>
