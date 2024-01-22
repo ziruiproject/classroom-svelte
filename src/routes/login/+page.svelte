@@ -39,17 +39,17 @@
 			></path>
 		</svg>
 	</div>
-	<h1 class="text-4xl font-semibold pl-6">Log in</h1>
+	<h1 class="text-4xl font-bold pl-6">Log in</h1>
 </div>
 
-<form on:submit|preventDefault={login} class="pt-12 grid gap-y-4 w-full">
-	<label for="email">Email</label>
-	<div class="w-full bg-transparent">
-		<input type="text" name="email" bind:value={email} class="form" />
+<form on:submit|preventDefault={login} class="pt-12 grid gap-y-8 w-full">
+	<div class="w-full grid gap-y-4">
+		<label for="email" class="label">Email</label>
+		<input type="text" name="email" bind:value={email} class="form-input" />
 	</div>
-	<label for="password">Password</label>
-	<div>
-		<input type="password" name="password" bind:value={password} class="form" />
+	<div class="w-full grid gap-y-4">
+		<label for="password" class="label">Password</label>
+		<input type="password" name="password" bind:value={password} class="form-input" />
 	</div>
-	<button type="submit">Daftar</button>
+	<button type="submit" class="bg-green py-4 text-xl rounded-2xl">Log in</button>
 </form>
