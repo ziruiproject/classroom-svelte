@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form-input {
+    background-color: transparent;
+    @apply text-xl font-light w-full p-4 rounded-2xl outline-none ring ring-light-gray focus:ring-green;
+}
+
+@layer components {
+    .label {
+        @apply text-xl font-light;
+    }
+
+    .button {
+        @apply bg-green py-4 text-xl rounded-2xl;
+    }
+}
