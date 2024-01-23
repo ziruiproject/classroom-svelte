@@ -1,18 +1,18 @@
 <script>
-	import { signInWithEmailAndPassword } from 'firebase/auth';
+	import { createUserWithEmailAndPassword } from 'firebase/auth';
 	import { auth } from '$lib';
-	import { goto } from '$app/navigation';
-	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 	let email = '',
-		password = '';
+		password = '',
+		confirmPass = '',
+		confirmed = false,
+		name = '';
 
-	async function loginWithEmail() {
-		await signInWithEmailAndPassword(auth, email, password)
+	async function registration() {
+		await createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				const user = userCredential.user;
 				console.log(user);
-				goto('/');
 			})
 			.catch((error) => {
 				const errorCode = error.code;
@@ -21,28 +21,15 @@
 			});
 	}
 
-	async function loginWithGoogle() {
-		const provider = new GoogleAuthProvider();
-		provider.setCustomParameters({ prompt: 'select_account' });
-		await signInWithPopup(auth, provider)
-			.then((result) => {
-				const credential = GoogleAuthProvider.credentialFromResult(result);
-				const token = credential.accessToken;
-				const user = result.user;
-				goto('/');
-			})
-			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				console.log(errorMessage);
-				const email = error.customData.email;
-				const credential = GoogleAuthProvider.credentialFromError(error);
-			});
+	function signUpWithGoogle() {}
+
+	function passwordChanges() {
+		confirmed = password === confirmPass && password.length != 0;
 	}
 </script>
 
 <svelte:head>
-	<title>Login</title>
+	<title>Sign Up</title>
 </svelte:head>
 
 <main class="md:w-1/4 mx-auto my-auto">
@@ -64,13 +51,13 @@
 				></path>
 			</svg>
 		</button>
-		<h1 class="text-4xl font-bold pl-6 md:pl-0">Log in</h1>
+		<h1 class="text-4xl font-bold pl-6 md:pl-0">Sign Up</h1>
 	</div>
 
 	<div class="grid gap-y-5">
-		<span class="text-[#767676]">Login with one of the following options.</span>
+		<span class="text-[#767676]">Sign up with one of the following options.</span>
 		<button
-			on:click|preventDefault={loginWithGoogle}
+			on:click|preventDefault={signUpWithGoogle}
 			class="form hover:border-green flex items-center align-middle justify-center gap-1"
 		>
 			<svg
@@ -97,15 +84,38 @@
 		</button>
 	</div>
 
-	<form on:submit|preventDefault={loginWithEmail} class="pt-12 grid gap-y-8 w-full">
+	<form on:submit|preventDefault={registration} class="pt-12 grid gap-y-8 w-full">
 		<div class="w-full grid gap-y-4">
 			<label for="email" class="label">Email</label>
 			<input type="text" name="email" bind:value={email} class="form" />
 		</div>
 		<div class="w-full grid gap-y-4">
-			<label for="password" class="label">Password</label>
-			<input type="password" name="password" bind:value={password} class="form" />
+			<label for="name" class="label">Name</label>
+			<input type="text" name="name" bind:value={name} class="form" />
 		</div>
-		<button type="submit" class="button">Log in</button>
+		<div class="w-full grid gap-y-4">
+			<label for="password" class="label">Password</label>
+			<input
+				type="password"
+				name="password"
+				bind:value={password}
+				class="form"
+				on:change={passwordChanges}
+			/>
+		</div>
+		<div class="w-full grid gap-y-4">
+			<label for="confirmPassword" class="label">Confirm Password</label>
+			<input
+				type="password"
+				name="confirmPassword"
+				bind:value={confirmPass}
+				class="form"
+				on:change={passwordChanges}
+			/>
+			{#if confirmed}
+				<span class="text-[#767676]"> Password Match. You're ready to go! </span>
+			{/if}
+		</div>
+		<button type="submit" class="button">Sign Up</button>
 	</form>
 </main>
