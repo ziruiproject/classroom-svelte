@@ -2,9 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-.form-input {
-    background-color: transparent;
-    @apply text-xl font-light w-full p-4 rounded-2xl outline-none stroke-none border-none ring-2 ring-light-gray focus:ring-green focus:ring-2;
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: white;
+    transition: background-color 2s ease-in-out 0s;
+}
+
+body {
+    @apply bg-black h-screen text-white px-6 py-12 w-screen;
+}
+
+.form {
+    @apply md:p-5 bg-gray text-xl font-thin w-full p-4 rounded-2xl outline-none stroke-none border-solid border-2 border-light-gray focus:outline-none focus:stroke-none focus:border-green;
 }
 
 @layer components {
@@ -13,6 +25,47 @@
     }
 
     .button {
-        @apply bg-green py-4 text-xl rounded-2xl;
+        background: linear-gradient(90deg, rgba(168,235,18,1) 0%, rgba(34,176,125,1) 100%);
+
+        @apply py-4 text-xl rounded-2xl;
     }
+    
+    /* @keyframes gradientAnimation {
+        0% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 0%, rgba(34,176,125,1) 100%);
+        }
+        10% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 10%, rgba(34,176,125,1) 100%);
+        }
+        20% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 20%, rgba(34,176,125,1) 100%);
+        }
+        30% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 30%, rgba(34,176,125,1) 100%);
+        }
+        40% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 40%, rgba(34,176,125,1) 100%);
+        }
+        50% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 50%, rgba(34,176,125,1) 100%);
+        }
+        60% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 60%, rgba(34,176,125,1) 100%);
+        }
+        70% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 70%, rgba(34,176,125,1) 100%);
+        }
+        80% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 80%, rgba(34,176,125,1) 100%);
+        }
+        90% {
+            background: linear-gradient(90deg, rgba(168,235,18,1) 90%, rgba(34,176,125,1) 100%);
+        }
+        100% {
+            background: linear-gradient(90deg, rgba(34,176,125,1) 0%, rgba(168,235,18,1) 100%);
+
+        }
+    } */
+
+
 }
