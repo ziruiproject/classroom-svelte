@@ -98,13 +98,25 @@
 	</div>
 
 	<form on:submit|preventDefault={loginWithEmail} class="pt-12 grid gap-y-8 w-full">
-		<div class="w-full grid gap-y-4">
+		<div class="w-full grid gap-y-2">
 			<label for="email" class="label">Email</label>
-			<input type="text" name="email" bind:value={email} class="form" />
+			<input
+				placeholder="example@email.com"
+				type="text"
+				name="email"
+				bind:value={email}
+				class="form"
+			/>
 		</div>
-		<div class="w-full grid gap-y-4">
+		<div class="w-full grid gap-y-2">
 			<label for="password" class="label">Password</label>
-			<input type="password" name="password" bind:value={password} class="form" />
+			<input
+				placeholder="Your secret password"
+				type="password"
+				name="password"
+				bind:value={password}
+				class="form"
+			/>
 		</div>
 		<button type="submit" class="button">Log in</button>
 	</form>

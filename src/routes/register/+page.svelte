@@ -21,7 +21,23 @@
 			});
 	}
 
-	function signUpWithGoogle() {}
+	async function signUpWithGoogle() {
+		const provider = new GoogleAuthProvider();
+		provider.setCustomParameters({ prompt: 'select_account' });
+		await signInWithPopup(auth, provider)
+			.then((result) => {
+				const credential = GoogleAuthProvider.credentialFromResult(result);
+				const token = credential.accessToken;
+				const user = result.user;
+				goto('/');
+			})
+			.catch((error) => {
+				// const errorCode = error.code;
+				// const errorMessage = error.message;
+				// const email = error.customData.email;
+				const credential = GoogleAuthProvider.credentialFromError(error);
+			});
+	}
 
 	function passwordChanges() {
 		confirmed = password === confirmPass && password.length != 0;
@@ -85,17 +101,24 @@
 	</div>
 
 	<form on:submit|preventDefault={registration} class="pt-12 grid gap-y-8 w-full">
-		<div class="w-full grid gap-y-4">
+		<div class="w-full grid gap-y-2">
 			<label for="email" class="label">Email</label>
-			<input type="text" name="email" bind:value={email} class="form" />
+			<input
+				placeholder="example@email.com"
+				type="text"
+				name="email"
+				bind:value={email}
+				class="form"
+			/>
 		</div>
-		<div class="w-full grid gap-y-4">
+		<div class="w-full grid gap-y-2">
 			<label for="name" class="label">Name</label>
-			<input type="text" name="name" bind:value={name} class="form" />
+			<input placeholder="John Doe" type="text" name="name" bind:value={name} class="form" />
 		</div>
-		<div class="w-full grid gap-y-4">
+		<div class="w-full grid gap-y-2">
 			<label for="password" class="label">Password</label>
 			<input
+				placeholder="At least 6 characters long"
 				type="password"
 				name="password"
 				bind:value={password}
@@ -103,9 +126,11 @@
 				on:change={passwordChanges}
 			/>
 		</div>
-		<div class="w-full grid gap-y-4">
+		<div class="w-full grid gap-y-2">
 			<label for="confirmPassword" class="label">Confirm Password</label>
 			<input
+				placeholder="Retype your passsword"
+				show
 				type="password"
 				name="confirmPassword"
 				bind:value={confirmPass}
@@ -114,6 +139,12 @@
 			/>
 			{#if confirmed}
 				<span class="text-[#767676]"> Password Match. You're ready to go! </span>
+			{:else if password.length === 0}
+				<span class="text-[#7c1f2a]"></span>
+			{:else if password.length < 6}
+				<span class="text-[#7c1f2a]"> At least 6 characters! </span>
+			{:else}
+				<span class="text-[#7c1f2a]"> Password Doesn't Match! </span>
 			{/if}
 		</div>
 		<button type="submit" class="button">Sign Up</button>
