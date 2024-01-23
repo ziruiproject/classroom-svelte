@@ -1,8 +1,7 @@
 <script>
-	import { signInWithEmailAndPassword } from 'firebase/auth';
 	import { auth } from '$lib';
 	import { goto } from '$app/navigation';
-	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+	import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 	let email = '',
 		password = '';

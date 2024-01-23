@@ -1,5 +1,9 @@
 <script>
-	import { createUserWithEmailAndPassword } from 'firebase/auth';
+	import {
+		createUserWithEmailAndPassword,
+		GoogleAuthProvider,
+		signInWithPopup
+	} from 'firebase/auth';
 	import { auth } from '$lib';
 
 	let email = '',
