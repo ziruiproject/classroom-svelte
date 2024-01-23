@@ -12,16 +12,16 @@ input:-webkit-autofill:active{
 }
 
 body {
-    @apply bg-black h-screen text-white px-6 py-12 w-screen;
+    @apply bg-black text-white px-6 py-12 w-screen;
 }
 
 .form {
-    @apply md:p-5 bg-gray text-xl font-thin w-full p-4 rounded-2xl outline-none stroke-none border-solid border-2 border-light-gray focus:outline-none focus:stroke-none focus:border-green;
+    @apply md:p-5 bg-gray text-lg font-thin w-full p-4 rounded-2xl outline-none stroke-none border-solid border-2 border-light-gray focus:outline-none focus:stroke-none focus:border-green;
 }
 
 @layer components {
     .label {
-        @apply text-xl font-light;
+        @apply text-lg font-light;
     }
 
     .button {
