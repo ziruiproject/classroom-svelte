@@ -1,8 +1,6 @@
 <script>
-	import { onAuthStateChanged } from 'firebase/auth';
 	import { userStore, auth, db } from '$lib';
-	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
-	import { collection, getDocs, query, where, documentId } from 'firebase/firestore';
+	import { collection, getDocs, query, where, documentId, getDoc, doc } from 'firebase/firestore';
 
 	let user = userStore(auth);
 	let enrolledClasses = [];
@@ -16,19 +14,36 @@
 
 		const enrolledRef = collection(db, 'enrolled');
 		const classesRef = collection(db, 'classes');
-		const q = query(enrolledRef, where('userUid', '==', $user?.uid));
-		const querySnapshot = await getDocs(q);
 
-		for (const doc of querySnapshot.docs) {
-			console.log(doc.data());
+		const enrolledQuery = query(enrolledRef, where('userUid', '==', $user?.uid));
+		const querySnapshotEnrolled = await getDocs(enrolledQuery);
 
-			const q = query(classesRef, where(documentId(), '==', doc.data().classUid));
-			const querySnapshot = await getDocs(q);
+		for (const enrolledDoc of querySnapshotEnrolled.docs) {
+			console.log(enrolledDoc.data().classUid);
+			const classesQuery = query(
+				classesRef,
+				where(documentId(), '==', enrolledDoc.data().classUid)
+			);
+			const querySnapshotClasses = await getDocs(classesQuery);
 
-			querySnapshot.forEach((doc) => {
-				enrolledClasses.push(doc.data());
+			for (const classesDoc of querySnapshotClasses.docs) {
+				const teacherQuery = doc(db, 'teachers', classesDoc.data().teacher);
+				const querySnapshotTeacher = await getDoc(teacherQuery);
+
+				enrolledClasses.push({
+					title: classesDoc.data().title,
+					active: classesDoc.data().active,
+					price: classesDoc.data().price,
+					createdAt: classesDoc.data().createdAt,
+					teacher: {
+						name: querySnapshotTeacher.data().displayName,
+						photoURL: querySnapshotTeacher.data().photoURL
+					}
+				});
+
 				enrolledClasses = enrolledClasses;
-			});
+				console.log(enrolledClasses);
+			}
 		}
 	}
 
