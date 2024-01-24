@@ -10,7 +10,8 @@
 			return;
 		}
 
-		enrolledClasses = [];
+		enrolledClasses.pop();
+		enrolledClasses = enrolledClasses;
 
 		const enrolledRef = collection(db, 'enrolled');
 		const classesRef = collection(db, 'classes');
@@ -19,7 +20,6 @@
 		const querySnapshotEnrolled = await getDocs(enrolledQuery);
 
 		for (const enrolledDoc of querySnapshotEnrolled.docs) {
-			console.log(enrolledDoc.data().classUid);
 			const classesQuery = query(
 				classesRef,
 				where(documentId(), '==', enrolledDoc.data().classUid)
@@ -42,7 +42,6 @@
 				});
 
 				enrolledClasses = enrolledClasses;
-				console.log(enrolledClasses);
 			}
 		}
 	}
@@ -102,8 +101,16 @@
 	</div>
 	<div class="gap-x-4 grid grid-cols-2 pt-8">
 		{#each enrolledClasses as enrolled}
-			<div class="bg-[#ff8c0b] rounded-xl p-2">
-				<span class="text-2xl">{enrolled.title}</span>
+			<div class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20">
+				<span class="text-2xl font-bold">{enrolled.title}</span>
+				<div class="flex justify-between">
+					<div class="flex items-center gap-1 p-1 pr-4 align-middle bg-white rounded-full">
+						<img src={enrolled.teacher.photoURL} alt="" width="20" class="rounded-full" />
+						<span class="text-light-gray text-base text-center">
+							{enrolled.teacher.name}
+						</span>
+					</div>
+				</div>
 			</div>
 		{/each}
 	</div>
