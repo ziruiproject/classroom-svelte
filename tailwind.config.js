@@ -10,6 +10,7 @@ export default {
       "black": "#101010",
       "gray": "#171717",
       "light-gray": "#2b2b2b",
+      "lighter-gray": "#767676",
       "white": "#ffffff",
       "green": "#22b07d",
       "transparent": "transparent"

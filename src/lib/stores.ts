@@ -5,8 +5,8 @@ export function userStore(auth: Auth) {
     let unsubscribe: () => void;
 
     const { subscribe } = writable(auth.currentUser, (set) => {
-        unsubscribe = onAuthStateChanged(auth, (user) => {
-            set(user);
+        unsubscribe = onAuthStateChanged(auth, async (user) => {
+            await set(user);
         });
         return () => unsubscribe();
     });
