@@ -5,11 +5,14 @@
 	import { collection, getDocs, query, where, documentId } from 'firebase/firestore';
 
 	let user = userStore(auth);
+	let enrolledClasses = [];
 
 	async function getClasses() {
 		if ($user?.uid === undefined) {
 			return;
 		}
+
+		enrolledClasses = [];
 
 		const enrolledRef = collection(db, 'enrolled');
 		const classesRef = collection(db, 'classes');
@@ -23,9 +26,14 @@
 			const querySnapshot = await getDocs(q);
 
 			querySnapshot.forEach((doc) => {
-				console.log(doc.data());
+				enrolledClasses.push(doc.data());
+				enrolledClasses = enrolledClasses;
 			});
 		}
+	}
+
+	function getRandomColor() {
+		return '#' + Math.floor(Math.random() * 16777215).toString(16);
 	}
 
 	$: $user, getClasses();
@@ -76,5 +84,12 @@
 				></path></svg
 			>
 		</div>
+	</div>
+	<div class="gap-x-4 grid grid-cols-2 pt-8">
+		{#each enrolledClasses as enrolled}
+			<div class="bg-[#ff8c0b] rounded-xl p-2">
+				<span class="text-2xl">{enrolled.title}</span>
+			</div>
+		{/each}
 	</div>
 </main>
