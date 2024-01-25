@@ -1,16 +1,17 @@
 <script>
-	import { userStore, enrolledStore, auth, db } from '$lib';
+	import { auth, db, enrolledClasses } from '$lib';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
-	let user = userStore(auth);
-	let enrolled;
+	export let data;
+	let user = data.user,
+		enrolled = data.enrolled;
 
-	$: if ($user) {
-		enrolled = enrolledStore($user.uid);
-	}
+	let photoProfile;
 
-	$: photoProfile =
-		$user?.photoProfile ||
-		`https://placehold.co/500x500/green/white/?text=${$user?.displayName?.[0]}`;
+	photoProfile =
+		user?.photoProfile ||
+		`https://placehold.co/500x500/green/white/?text=${user?.displayName?.[0]}`;
 </script>
 
 <svelte:head>
@@ -22,8 +23,8 @@
 		<div class="gap-x-4 flex items-center align-middle">
 			<img src={photoProfile} alt="" class="w-16 rounded-full" />
 			<div>
-				<h1 class="text-xl font-semibold">{$user?.displayName}</h1>
-				<span class="text-lighter-gray text-lg font-light">Semangat Belajar</span>
+				<h1 class="text-xl font-semibold">{user?.displayName}</h1>
+				<span class="text-text-gray text-lg font-light">Semangat Belajar</span>
 			</div>
 		</div>
 		<div class="bg-green rounded-xl p-3">
@@ -56,8 +57,8 @@
 		</div>
 	</div>
 	<div class="gap-x-4 grid grid-flow-col pt-8 caraousel w-full">
-		{#if $enrolled}
-			{#each $enrolled as enrolledClass (enrolledClass.uid)}
+		{#if enrolled}
+			{#each enrolled as enrolledClass (enrolledClass.uid)}
 				<a
 					href={'/enrolled/' + enrolledClass.uid}
 					class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20 snap-start min-w-48"

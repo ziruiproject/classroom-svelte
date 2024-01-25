@@ -1,6 +1,6 @@
 <script>
 	import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
-	import { enrolledStore, userStore, auth, db } from '$lib';
+	import { db } from '$lib';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
@@ -8,10 +8,16 @@
 	let enrolled,
 		teacher,
 		assignments = [];
+	export let data;
 
 	const currentDate = new Date();
 
+	console.log($page.data.value);
+	console.log(data.value);
+
 	onMount(async () => {
+		console.log(data.cachedEnrolledClasses);
+
 		const enrolledRef = doc(db, 'enrolled', enrolledUid);
 		const enrolledDoc = await getDoc(enrolledRef);
 
@@ -265,15 +271,15 @@
 						<p class="font-light">
 							{assign.description}
 						</p>
-						<ul>
+						<ul class="grid gap-y-2">
 							{#each assign.attachments as attachment, index}
 								<a
 									href={attachment}
-									class="bg-light-gray w-fit h-fit px-3 py-1 rounded-full flex justify-between gap-x-2 items-center"
+									class="bg-light-gray w-fit h-fit px-3 py-1 rounded-full flex justify-between gap-x-1 items-center"
 								>
 									<svg
-										width="24px"
-										height="24px"
+										width="20px"
+										height="20px"
 										stroke-width="1.5"
 										viewBox="0 0 24 24"
 										fill="none"
@@ -293,7 +299,7 @@
 											stroke-linejoin="round"
 										></path></svg
 									>
-									<span> attachment {index + 1}</span>
+									<span class="text-xs"> attachment {index + 1}</span>
 								</a>
 							{/each}
 						</ul>
