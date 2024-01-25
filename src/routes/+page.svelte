@@ -36,6 +36,7 @@
 				const querySnapshotTeacher = await getDoc(teacherQuery);
 
 				enrolledClasses.push({
+					uid: enrolledDoc.id,
 					title: classesDoc.data().title,
 					active: classesDoc.data().active,
 					price: classesDoc.data().price,
@@ -106,7 +107,10 @@
 	</div>
 	<div class="gap-x-4 grid grid-flow-col pt-8 caraousel w-full">
 		{#each enrolledClasses as enrolled}
-			<div class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20 snap-start min-w-48">
+			<a
+				href={'/enrolled/' + enrolled.uid}
+				class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20 snap-start min-w-48"
+			>
 				<span class="text-2xl font-bold">{enrolled.title}</span>
 				<div class="flex justify-between">
 					<div class="flex items-center gap-1 p-1 pr-4 align-middle bg-white rounded-full">
@@ -116,7 +120,7 @@
 						</span>
 					</div>
 				</div>
-			</div>
+			</a>
 		{/each}
 	</div>
 </main>
