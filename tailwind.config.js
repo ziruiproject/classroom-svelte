@@ -7,13 +7,15 @@ export default {
       "sans": "rig-sans"
     },
     colors: {
-      "black": "#101010",
-      "gray": "#171717",
-      "light-gray": "#2b2b2b",
-      "lighter-gray": "#767676",
+      "black": "#1f1d2b",
+      "gray": "#252836",
+      "light-gray": "#2f3142",
+      "lighter-gray": "#1a1924",
+      "text-gray": "#64656c",
       "white": "#ffffff",
       "green": "#22b07d",
-      "transparent": "transparent"
+      "transparent": "transparent",
+      "purple": "#b548c6"
     }
   },
   plugins: [

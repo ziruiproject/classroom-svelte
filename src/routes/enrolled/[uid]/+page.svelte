@@ -4,11 +4,12 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
-	let user = userStore(auth);
 	let enrolledUid = $page.params.uid;
 	let enrolled,
 		teacher,
 		assignments = [];
+
+	const currentDate = new Date();
 
 	onMount(async () => {
 		const enrolledRef = doc(db, 'enrolled', enrolledUid);
@@ -25,13 +26,28 @@
 		const assignDocs = await getDocs(assignQuery);
 
 		assignDocs.forEach((doc) => {
-			assignments.push(doc.data());
+			const formattedDueDate = formatDueDate(doc.data().due);
+			assignments.push({ ...doc.data(), formatted: formattedDueDate });
 		});
 
 		enrolled = classDoc.data();
 		teacher = teacherDoc.data();
 		assignments = assignments;
 	});
+
+	function formatDueDate(firebaseTimestamp) {
+		const dueDate = firebaseTimestamp.toDate();
+
+		const timeDiff = dueDate - currentDate;
+
+		if (dueDate.getDay() - currentDate.getDay() < 7) {
+			const dayOfWeek = dueDate.toLocaleDateString('id-ID', { weekday: 'long' });
+			const time = dueDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+			return `${dayOfWeek} pukul ${time}`;
+		}
+
+		return dueDate.toLocaleDateString() + ' ' + dueDate.toLocaleTimeString();
+	}
 </script>
 
 <main class="grid gap-y-20">
@@ -100,11 +116,78 @@
 				</span>
 			</div>
 		</div>
-		<div>
+		<div class="grid gap-y-5">
 			<h2 class="text-2xl font-semibold">Task Due</h2>
 			{#each assignments as assign}
-				<div>
-					<h2 class="text-2xl font-semibold">{assign.title}</h2>
+				<div class="bg-gray p-4 rounded-2xl">
+					<div class="flex gap-x-4 items-center">
+						<div class="bg-purple p-2 rounded-xl w-fit h-fit">
+							<svg
+								width="24px"
+								height="24px"
+								stroke-width="1.5"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								color="#ffffff"
+								><path
+									d="M19 3L5 3C3.89543 3 3 3.89543 3 5L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 7L17 7"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 12L17 12"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 17L13 17"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path></svg
+							>
+						</div>
+						<div>
+							<h2 class="text-lg font-medium">{assign.title}</h2>
+							<div class="flex items-center gap-x-1">
+								<svg
+									width="18px"
+									height="18px"
+									stroke-width="1.5"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									color="#64656c"
+									><path
+										d="M12 6L12 12L18 12"
+										stroke="#64656c"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></path><path
+										d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+										stroke="#64656c"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></path></svg
+								>
+								<span class="text-text-gray -mb-1">
+									{assign.formatted}
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			{/each}
 		</div>
