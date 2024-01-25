@@ -30,6 +30,14 @@ body {
         @apply py-4 text-xl rounded-2xl;
     }
     
+    .caraousel {
+        @apply overscroll-x-contain scroll-auto overflow-y-auto snap-mandatory;
+    }
+
+    .caraousel::-webkit-scrollbar {
+        display: none
+    }
+    
     /* @keyframes gradientAnimation {
         0% {
             background: linear-gradient(90deg, rgba(168,235,18,1) 0%, rgba(34,176,125,1) 100%);

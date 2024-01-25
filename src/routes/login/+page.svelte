@@ -1,8 +1,7 @@
 <script>
-	import { signInWithEmailAndPassword } from 'firebase/auth';
 	import { auth } from '$lib';
 	import { goto } from '$app/navigation';
-	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+	import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 	let email = '',
 		password = '';
@@ -34,7 +33,6 @@
 			.catch((error) => {
 				const errorCode = error.code;
 				const errorMessage = error.message;
-				console.log(errorMessage);
 				const email = error.customData.email;
 				const credential = GoogleAuthProvider.credentialFromError(error);
 			});
