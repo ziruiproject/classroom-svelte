@@ -7,6 +7,7 @@ export function enrolledStore(userUid) {
     const enrolledClasses = writable([]);
 
     const loadEnrolledClasses = async () => {
+        console.log("hi")
         try {
             if (!userUid) {
                 enrolledClasses.set([]);

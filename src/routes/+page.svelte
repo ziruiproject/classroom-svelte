@@ -1,62 +1,12 @@
 <script>
-	import { userStore, auth, db } from '$lib';
-	import { collection, getDocs, query, where, documentId, getDoc, doc } from 'firebase/firestore';
+	import { userStore, enrolledStore, auth, db } from '$lib';
 
 	let user = userStore(auth);
-	let enrolledClasses = [];
-	let carousel;
+	let enrolled;
 
-	function handleNextClick() {
-		carousel.goToNext();
+	$: if ($user) {
+		enrolled = enrolledStore($user.uid);
 	}
-
-	async function getClasses() {
-		if ($user?.uid === undefined) {
-			return;
-		}
-
-		enrolledClasses.pop();
-		enrolledClasses = enrolledClasses;
-
-		const enrolledRef = collection(db, 'enrolled');
-		const classesRef = collection(db, 'classes');
-
-		const enrolledQuery = query(enrolledRef, where('userUid', '==', $user?.uid));
-		const querySnapshotEnrolled = await getDocs(enrolledQuery);
-
-		for (const enrolledDoc of querySnapshotEnrolled.docs) {
-			const classesQuery = query(
-				classesRef,
-				where(documentId(), '==', enrolledDoc.data().classUid)
-			);
-			const querySnapshotClasses = await getDocs(classesQuery);
-
-			for (const classesDoc of querySnapshotClasses.docs) {
-				const teacherQuery = doc(db, 'teachers', classesDoc.data().teacher);
-				const querySnapshotTeacher = await getDoc(teacherQuery);
-
-				enrolledClasses.push({
-					uid: enrolledDoc.id,
-					title: classesDoc.data().title,
-					active: classesDoc.data().active,
-					price: classesDoc.data().price,
-					createdAt: classesDoc.data().createdAt,
-					teacher: {
-						name: querySnapshotTeacher.data().displayName,
-						photoURL: querySnapshotTeacher.data().photoURL
-					}
-				});
-
-				enrolledClasses = enrolledClasses;
-			}
-		}
-	}
-
-	function getRandomColor() {
-		return '#' + Math.floor(Math.random() * 16777215).toString(16);
-	}
-
-	$: $user, getClasses();
 
 	$: photoProfile =
 		$user?.photoProfile ||
@@ -106,21 +56,25 @@
 		</div>
 	</div>
 	<div class="gap-x-4 grid grid-flow-col pt-8 caraousel w-full">
-		{#each enrolledClasses as enrolled}
-			<a
-				href={'/enrolled/' + enrolled.uid}
-				class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20 snap-start min-w-48"
-			>
-				<span class="text-2xl font-bold">{enrolled.title}</span>
-				<div class="flex justify-between">
-					<div class="flex items-center gap-1 p-1 pr-4 align-middle bg-white rounded-full">
-						<img src={enrolled.teacher.photoURL} alt="" width="20" class="rounded-full" />
-						<span class="text-light-gray text-xs text-center">
-							{enrolled.teacher.name}
-						</span>
+		{#if $enrolled}
+			{#each $enrolled as enrolledClass (enrolledClass.uid)}
+				<a
+					href={'/enrolled/' + enrolledClass.uid}
+					class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20 snap-start min-w-48"
+				>
+					<span class="text-2xl font-bold">{enrolledClass.title}</span>
+					<div class="flex justify-between">
+						<div class="w-fit flex items-center gap-1 p-1 pr-4 align-middle bg-white rounded-full">
+							<img src={enrolledClass.teacher.photoURL} alt="" width="20" class="rounded-full" />
+							<span class="text-light-gray text-xs text-center">
+								{enrolledClass.teacher.name}
+							</span>
+						</div>
 					</div>
-				</div>
-			</a>
-		{/each}
+				</a>
+			{/each}
+		{:else}
+			<p>No enrolled classes found.</p>
+		{/if}
 	</div>
 </main>
