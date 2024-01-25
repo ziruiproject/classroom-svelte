@@ -27,7 +27,7 @@
 
 		assignDocs.forEach((doc) => {
 			const formattedDueDate = formatDueDate(doc.data().due);
-			assignments.push({ ...doc.data(), formatted: formattedDueDate });
+			assignments.push({ ...doc.data(), formatted: formattedDueDate, uid: doc.id });
 		});
 
 		enrolled = classDoc.data();
@@ -119,7 +119,80 @@
 		<div class="grid gap-y-5">
 			<h2 class="text-2xl font-semibold">Task Due</h2>
 			{#each assignments as assign}
-				<div class="bg-gray p-4 rounded-2xl">
+				<a href={'/assignments/' + assign.uid} class="bg-gray p-4 rounded-2xl">
+					<div class="flex gap-x-4 items-center">
+						<div class="bg-purple p-2 rounded-xl w-fit h-fit">
+							<svg
+								width="24px"
+								height="24px"
+								stroke-width="1.5"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								color="#ffffff"
+								><path
+									d="M19 3L5 3C3.89543 3 3 3.89543 3 5L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 7L17 7"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 12L17 12"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 17L13 17"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path></svg
+							>
+						</div>
+						<div>
+							<h2 class="text-lg font-medium">{assign.title}</h2>
+							<div class="flex items-center gap-x-1">
+								<svg
+									width="18px"
+									height="18px"
+									stroke-width="1.5"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									color="#64656c"
+									><path
+										d="M12 6L12 12L18 12"
+										stroke="#64656c"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></path><path
+										d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+										stroke="#64656c"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></path></svg
+								>
+								<span class="text-text-gray font-light -mb-1">
+									{assign.formatted}
+								</span>
+							</div>
+						</div>
+					</div>
+				</a>
+			{/each}
+
+			{#each assignments as assign}
+				<a href={'/assignments/' + assign.uid} class="bg-gray p-4 rounded-2xl grid gap-y-5">
 					<div class="flex gap-x-4 items-center">
 						<div class="bg-purple p-2 rounded-xl w-fit h-fit">
 							<svg
@@ -188,7 +261,71 @@
 							</div>
 						</div>
 					</div>
-				</div>
+					<div class="grid gap-y-5">
+						<p class="font-light">
+							{assign.description}
+						</p>
+						<ul>
+							{#each assign.attachments as attachment, index}
+								<a
+									href={attachment}
+									class="bg-light-gray w-fit h-fit px-3 py-1 rounded-full flex justify-between gap-x-2 items-center"
+								>
+									<svg
+										width="24px"
+										height="24px"
+										stroke-width="1.5"
+										viewBox="0 0 24 24"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+										color="#ffffff"
+										><path
+											d="M14 11.9976C14 9.5059 11.683 7 8.85714 7C8.52241 7 7.41904 7.00001 7.14286 7.00001C4.30254 7.00001 2 9.23752 2 11.9976C2 14.376 3.70973 16.3664 6 16.8714C6.36756 16.9525 6.75006 16.9952 7.14286 16.9952"
+											stroke="#ffffff"
+											stroke-width="1.5"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										></path><path
+											d="M10 11.9976C10 14.4893 12.317 16.9952 15.1429 16.9952C15.4776 16.9952 16.581 16.9952 16.8571 16.9952C19.6975 16.9952 22 14.7577 22 11.9976C22 9.6192 20.2903 7.62884 18 7.12383C17.6324 7.04278 17.2499 6.99999 16.8571 6.99999"
+											stroke="#ffffff"
+											stroke-width="1.5"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										></path></svg
+									>
+									<span> attachment {index + 1}</span>
+								</a>
+							{/each}
+						</ul>
+						<button
+							class="bg-green py-3 rounded-xl font-semibold flex justify-center items-center gap-x-1"
+						>
+							<svg
+								width="24px"
+								height="24px"
+								stroke-width="1.5"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								color="#ffffff"
+								><path
+									d="M6 20L18 20"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M12 16V4M12 4L15.5 7.5M12 4L8.5 7.5"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path></svg
+							>
+							<span class="-mb-1"> Upload </span>
+						</button>
+					</div>
+				</a>
 			{/each}
 		</div>
 	{/if}
