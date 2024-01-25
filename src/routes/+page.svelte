@@ -4,6 +4,11 @@
 
 	let user = userStore(auth);
 	let enrolledClasses = [];
+	let carousel;
+
+	function handleNextClick() {
+		carousel.goToNext();
+	}
 
 	async function getClasses() {
 		if ($user?.uid === undefined) {
@@ -99,14 +104,14 @@
 			>
 		</div>
 	</div>
-	<div class="gap-x-4 grid grid-cols-2 pt-8">
+	<div class="gap-x-4 grid grid-flow-col grid-cols-2 pt-8 caraousel">
 		{#each enrolledClasses as enrolled}
-			<div class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20">
+			<div class="bg-[#ff8c0b] rounded-xl p-3 grid gap-y-20 snap-start">
 				<span class="text-2xl font-bold">{enrolled.title}</span>
 				<div class="flex justify-between">
 					<div class="flex items-center gap-1 p-1 pr-4 align-middle bg-white rounded-full">
 						<img src={enrolled.teacher.photoURL} alt="" width="20" class="rounded-full" />
-						<span class="text-light-gray text-base text-center">
+						<span class="text-light-gray text-xs text-center">
 							{enrolled.teacher.name}
 						</span>
 					</div>

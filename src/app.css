@@ -29,6 +29,11 @@ body {
 
         @apply py-4 text-xl rounded-2xl;
     }
+
+    .caraousel::-webkit-scrollbar {
+        display: none
+        @apply grid-flow-col overscroll-x-contain scroll-auto overflow-y-auto snap-mandatory;
+    }
     
     /* @keyframes gradientAnimation {
         0% {
