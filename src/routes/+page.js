@@ -45,19 +45,18 @@ async function getMeetings(userUid) {
         const meetingsRef = collection(db, 'meetings');
 
         const meetingsPromises = classesSnap.docs.map(async (classDoc) => {
-            console.log('classUid:', classUid);
+            const classUid = classDoc.data().classUid;
 
             const meetingsQuery = query(meetingsRef, where('classUid', '==', classUid));
             const meetingsSnap = await getDocs(meetingsQuery);
             const meetingsData = meetingsSnap.docs.map(meetingDoc => meetingDoc.data());
-
-            console.log('meetingsData:', meetingsData);
 
             return meetingsData;
         });
 
         const meetingsDataArrays = await Promise.all(meetingsPromises);
         const meetings = meetingsDataArrays.flat();
+
 
         return meetings;
     } catch (error) {

@@ -5,8 +5,6 @@
 
 	let photoProfile;
 
-	console.log(data);
-
 	photoProfile =
 		user?.photoProfile ||
 		`https://placehold.co/500x500/green/white/?text=${user?.displayName?.[0]}`;
