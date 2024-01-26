@@ -1,7 +1,8 @@
 <script>
 	export let data;
 	let user = data.user,
-		enrolled = data.enrolled;
+		enrolled = data.enrolled,
+		meetings = data.meetings;
 
 	let photoProfile;
 
@@ -76,5 +77,79 @@
 	</div>
 	<div class="gap-y-5 grid">
 		<h2 class="text-2xl font-semibold">Meetings</h2>
+		<div class="gap-y-5 grid">
+			{#each meetings as meeting}
+				<div class="bg-gray rounded-2xl p-4">
+					<div class="gap-x-4 flex items-center">
+						<div class="bg-purple rounded-xl w-fit h-fit p-2">
+							<svg
+								width="24px"
+								height="24px"
+								stroke-width="1.5"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								color="#ffffff"
+								><path
+									d="M19 3L5 3C3.89543 3 3 3.89543 3 5L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 7L17 7"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 12L17 12"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path><path
+									d="M7 17L13 17"
+									stroke="#ffffff"
+									stroke-width="1.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								></path></svg
+							>
+						</div>
+						<div>
+							<h2 class="text-lg font-medium">{meeting.title}</h2>
+							<div class="gap-x-1 flex items-center">
+								<svg
+									width="18px"
+									height="18px"
+									stroke-width="1.5"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									color="#64656c"
+									><path
+										d="M12 6L12 12L18 12"
+										stroke="#64656c"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></path><path
+										d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+										stroke="#64656c"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></path></svg
+								>
+								<span class="text-text-gray -mb-1">
+									{meeting.time}
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/each}
+		</div>
 	</div>
 </main>

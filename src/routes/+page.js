@@ -49,7 +49,16 @@ async function getMeetings(userUid) {
 
             const meetingsQuery = query(meetingsRef, where('classUid', '==', classUid));
             const meetingsSnap = await getDocs(meetingsQuery);
-            const meetingsData = meetingsSnap.docs.map(meetingDoc => meetingDoc.data());
+
+            const meetingsData = meetingsSnap.docs.map(meetingDoc => {
+                const meetingData = meetingDoc.data();
+                const formattedDate = new Date(meetingData.date).toLocaleTimeString('en-US');
+
+                return {
+                    ...meetingData,
+                    formattedDate
+                };
+            });
 
             return meetingsData;
         });
