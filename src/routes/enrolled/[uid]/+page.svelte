@@ -8,16 +8,10 @@
 	let enrolled,
 		teacher,
 		assignments = [];
-	export let data;
 
 	const currentDate = new Date();
 
-	console.log($page.data.value);
-	console.log(data.value);
-
 	onMount(async () => {
-		console.log(data.cachedEnrolledClasses);
-
 		const enrolledRef = doc(db, 'enrolled', enrolledUid);
 		const enrolledDoc = await getDoc(enrolledRef);
 
@@ -44,8 +38,6 @@
 	function formatDueDate(firebaseTimestamp) {
 		const dueDate = firebaseTimestamp.toDate();
 
-		const timeDiff = dueDate - currentDate;
-
 		if (dueDate.getDay() - currentDate.getDay() < 7) {
 			const dayOfWeek = dueDate.toLocaleDateString('id-ID', { weekday: 'long' });
 			const time = dueDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
@@ -56,13 +48,13 @@
 	}
 </script>
 
-<main class="grid gap-y-20">
+<main class="gap-y-20 grid">
 	{#if !enrolled}
 		<span>Loading</span>
 	{:else}
 		<div class="bg-[#ff8c0b] self-start -mx-6 -my-12 p-7 grid gap-y-7">
 			<div class="flex items-center justify-between">
-				<button class="md:hidden block border-light-gray rounded-2xl">
+				<button class="md:hidden border-light-gray rounded-2xl block">
 					<svg
 						width="38px"
 						height="38px"
@@ -122,12 +114,12 @@
 				</span>
 			</div>
 		</div>
-		<div class="grid gap-y-5">
+		<div class="gap-y-5 grid">
 			<h2 class="text-2xl font-semibold">Task Due</h2>
 			{#each assignments as assign}
-				<a href={'/assignments/' + assign.uid} class="bg-gray p-4 rounded-2xl">
-					<div class="flex gap-x-4 items-center">
-						<div class="bg-purple p-2 rounded-xl w-fit h-fit">
+				<div class="bg-gray rounded-2xl gap-y-5 grid p-4">
+					<div class="gap-x-4 flex items-center">
+						<div class="bg-purple rounded-xl w-fit h-fit p-2">
 							<svg
 								width="24px"
 								height="24px"
@@ -165,80 +157,7 @@
 						</div>
 						<div>
 							<h2 class="text-lg font-medium">{assign.title}</h2>
-							<div class="flex items-center gap-x-1">
-								<svg
-									width="18px"
-									height="18px"
-									stroke-width="1.5"
-									viewBox="0 0 24 24"
-									fill="none"
-									xmlns="http://www.w3.org/2000/svg"
-									color="#64656c"
-									><path
-										d="M12 6L12 12L18 12"
-										stroke="#64656c"
-										stroke-width="1.5"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-									></path><path
-										d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-										stroke="#64656c"
-										stroke-width="1.5"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-									></path></svg
-								>
-								<span class="text-text-gray font-light -mb-1">
-									{assign.formatted}
-								</span>
-							</div>
-						</div>
-					</div>
-				</a>
-			{/each}
-
-			{#each assignments as assign}
-				<div class="bg-gray p-4 rounded-2xl grid gap-y-5">
-					<div class="flex gap-x-4 items-center">
-						<div class="bg-purple p-2 rounded-xl w-fit h-fit">
-							<svg
-								width="24px"
-								height="24px"
-								stroke-width="1.5"
-								viewBox="0 0 24 24"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-								color="#ffffff"
-								><path
-									d="M19 3L5 3C3.89543 3 3 3.89543 3 5L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
-									stroke="#ffffff"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path><path
-									d="M7 7L17 7"
-									stroke="#ffffff"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path><path
-									d="M7 12L17 12"
-									stroke="#ffffff"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path><path
-									d="M7 17L13 17"
-									stroke="#ffffff"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path></svg
-							>
-						</div>
-						<div>
-							<h2 class="text-lg font-medium">{assign.title}</h2>
-							<div class="flex items-center gap-x-1">
+							<div class="gap-x-1 flex items-center">
 								<svg
 									width="18px"
 									height="18px"
@@ -267,32 +186,26 @@
 							</div>
 						</div>
 					</div>
-					<div class="grid gap-y-5">
+					<div class="gap-y-5 grid">
 						<p class="font-light">
 							{assign.description}
 						</p>
-						<ul class="grid gap-y-2">
+						<ul class="gap-y-2 grid">
 							{#each assign.attachments as attachment, index}
 								<a
 									href={attachment}
-									class="bg-light-gray w-fit h-fit px-3 py-1 rounded-full flex justify-between gap-x-1 items-center"
+									class="bg-light-gray w-fit h-fit gap-x-1 flex items-center justify-between px-3 py-1 rounded-full"
 								>
 									<svg
-										width="20px"
-										height="20px"
+										width="18px"
+										height="18px"
 										stroke-width="1.5"
 										viewBox="0 0 24 24"
 										fill="none"
 										xmlns="http://www.w3.org/2000/svg"
 										color="#ffffff"
 										><path
-											d="M14 11.9976C14 9.5059 11.683 7 8.85714 7C8.52241 7 7.41904 7.00001 7.14286 7.00001C4.30254 7.00001 2 9.23752 2 11.9976C2 14.376 3.70973 16.3664 6 16.8714C6.36756 16.9525 6.75006 16.9952 7.14286 16.9952"
-											stroke="#ffffff"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										></path><path
-											d="M10 11.9976C10 14.4893 12.317 16.9952 15.1429 16.9952C15.4776 16.9952 16.581 16.9952 16.8571 16.9952C19.6975 16.9952 22 14.7577 22 11.9976C22 9.6192 20.2903 7.62884 18 7.12383C17.6324 7.04278 17.2499 6.99999 16.8571 6.99999"
+											d="M21.4383 11.6622L12.2483 20.8522C11.1225 21.9781 9.59552 22.6106 8.00334 22.6106C6.41115 22.6106 4.88418 21.9781 3.75834 20.8522C2.63249 19.7264 2 18.1994 2 16.6072C2 15.015 2.63249 13.4881 3.75834 12.3622L12.9483 3.17222C13.6989 2.42166 14.7169 2 15.7783 2C16.8398 2 17.8578 2.42166 18.6083 3.17222C19.3589 3.92279 19.7806 4.94077 19.7806 6.00222C19.7806 7.06368 19.3589 8.08166 18.6083 8.83222L9.40834 18.0222C9.03306 18.3975 8.52406 18.6083 7.99334 18.6083C7.46261 18.6083 6.95362 18.3975 6.57834 18.0222C6.20306 17.6469 5.99222 17.138 5.99222 16.6072C5.99222 16.0765 6.20306 15.5675 6.57834 15.1922L15.0683 6.71222"
 											stroke="#ffffff"
 											stroke-width="1.5"
 											stroke-linecap="round"
@@ -304,7 +217,7 @@
 							{/each}
 						</ul>
 						<button
-							class="bg-green py-3 rounded-xl font-semibold flex justify-center items-center gap-x-1"
+							class="bg-green rounded-xl gap-x-1 flex items-center justify-center py-3 font-semibold"
 						>
 							<svg
 								width="24px"
