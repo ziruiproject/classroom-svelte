@@ -52,7 +52,11 @@ async function getMeetings(userUid) {
 
             const meetingsData = meetingsSnap.docs.map(meetingDoc => {
                 const meetingData = meetingDoc.data();
-                const formattedDate = new Date(meetingData.date).toLocaleTimeString('en-US');
+                const formattedDate = new Date(meetingData.date).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
 
                 return {
                     ...meetingData,
@@ -63,9 +67,7 @@ async function getMeetings(userUid) {
             return meetingsData;
         });
 
-        const meetingsDataArrays = await Promise.all(meetingsPromises);
-        const meetings = meetingsDataArrays.flat();
-
+        const meetings = (await Promise.all(meetingsPromises)).flat();
 
         return meetings;
     } catch (error) {

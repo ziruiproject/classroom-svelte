@@ -142,8 +142,8 @@
 										stroke-linejoin="round"
 									></path></svg
 								>
-								<span class="text-text-gray -mb-1">
-									{meeting.time}
+								<span class="text-text-gray -mb-2">
+									{meeting.formattedDate + ' pukul ' + meeting.time}
 								</span>
 							</div>
 						</div>
