@@ -81,7 +81,7 @@
 			{#each meetings as meeting}
 				<div class="bg-gray rounded-2xl p-4">
 					<div class="gap-x-4 flex items-center">
-						<div class="bg-purple rounded-xl w-fit h-fit p-2">
+						<div class="bg-[#2349d1] rounded-xl w-fit h-fit p-2">
 							<svg
 								width="24px"
 								height="24px"
@@ -91,25 +91,7 @@
 								xmlns="http://www.w3.org/2000/svg"
 								color="#ffffff"
 								><path
-									d="M19 3L5 3C3.89543 3 3 3.89543 3 5L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
-									stroke="#ffffff"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path><path
-									d="M7 7L17 7"
-									stroke="#ffffff"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path><path
-									d="M7 12L17 12"
-									stroke="#ffffff"
-									stroke-width="1.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								></path><path
-									d="M7 17L13 17"
+									d="M15 12V16.4C15 16.7314 14.7314 17 14.4 17H3.6C3.26863 17 3 16.7314 3 16.4V7.6C3 7.26863 3.26863 7 3.6 7H14.4C14.7314 7 15 7.26863 15 7.6V12ZM15 12L20.0159 7.82009C20.4067 7.49443 21 7.77232 21 8.28103V15.719C21 16.2277 20.4067 16.5056 20.0159 16.1799L15 12Z"
 									stroke="#ffffff"
 									stroke-width="1.5"
 									stroke-linecap="round"
@@ -117,8 +99,13 @@
 								></path></svg
 							>
 						</div>
-						<div>
-							<h2 class="text-lg font-medium">{meeting.title}</h2>
+						<div class="gap-y-1 grid">
+							<div class="gap-x-1 flex items-center">
+								<h2 class="text-lg font-medium">{meeting.title}</h2>
+								<span class="text-text-gray mt-1">
+									- {meeting.className}
+								</span>
+							</div>
 							<div class="gap-x-1 flex items-center">
 								<svg
 									width="18px"
@@ -142,7 +129,7 @@
 										stroke-linejoin="round"
 									></path></svg
 								>
-								<span class="text-text-gray -mb-2">
+								<span class="text-text-gray -mb-1">
 									{meeting.formattedDate + ' pukul ' + meeting.time}
 								</span>
 							</div>
