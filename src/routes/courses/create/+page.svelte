@@ -6,10 +6,11 @@
 
 	async function create() {
 		try {
-			const docRef = await addDoc(collection(db, 'courses'), {
+			const docRef = await addDoc(collection(db, 'meetings'), {
 				title: title,
 				date: date,
-				time: time
+				time: time,
+				status: true
 			});
 		} catch (e) {
 			console.error('gagal gan: ', e);

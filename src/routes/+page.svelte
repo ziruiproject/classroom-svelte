@@ -1,13 +1,11 @@
 <script>
-	import { auth, db, enrolledClasses } from '$lib';
-	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
-
 	export let data;
 	let user = data.user,
 		enrolled = data.enrolled;
 
 	let photoProfile;
+
+	console.log(data);
 
 	photoProfile =
 		user?.photoProfile ||
@@ -18,7 +16,7 @@
 	<title>Home</title>
 </svelte:head>
 
-<main>
+<main class="gap-y-8 grid">
 	<div class="flex items-center justify-between align-middle">
 		<div class="gap-x-4 flex items-center align-middle">
 			<img src={photoProfile} alt="" class="w-16 rounded-full" />
@@ -56,7 +54,7 @@
 			>
 		</div>
 	</div>
-	<div class="gap-x-4 grid grid-flow-col pt-8 caraousel w-full">
+	<div class="gap-x-4 caraousel grid w-full grid-flow-col">
 		{#if enrolled}
 			{#each enrolled as enrolledClass (enrolledClass.uid)}
 				<a
@@ -77,5 +75,8 @@
 		{:else}
 			<p>No enrolled classes found.</p>
 		{/if}
+	</div>
+	<div class="gap-y-5 grid">
+		<h2 class="text-2xl font-semibold">Meetings</h2>
 	</div>
 </main>

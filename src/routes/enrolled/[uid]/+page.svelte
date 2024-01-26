@@ -198,7 +198,7 @@
 			{/each}
 
 			{#each assignments as assign}
-				<a href={'/assignments/' + assign.uid} class="bg-gray p-4 rounded-2xl grid gap-y-5">
+				<div class="bg-gray p-4 rounded-2xl grid gap-y-5">
 					<div class="flex gap-x-4 items-center">
 						<div class="bg-purple p-2 rounded-xl w-fit h-fit">
 							<svg
@@ -331,7 +331,7 @@
 							<span class="-mb-1"> Upload </span>
 						</button>
 					</div>
-				</a>
+				</div>
 			{/each}
 		</div>
 	{/if}

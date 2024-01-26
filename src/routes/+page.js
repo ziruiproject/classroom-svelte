@@ -10,17 +10,18 @@ export async function load() {
 
         if (user) {
             const enrolled = await getEnrolledClasses(user.uid);
+            const meetings = await getMeetings(user.uid)
 
             return {
-                value: "halo",
                 user: user,
-                enrolled: enrolled
+                enrolled: enrolled,
+                meetings: meetings
             };
         } else {
             return {
-                value: "halo",
                 user: null,
-                enrolled: []
+                enrolled: [],
+                meetings: [],
             };
         }
     } catch (error) {
@@ -34,6 +35,37 @@ function getAuthUser() {
         onAuthStateChanged(auth, (user) => resolve(user ? user : null));
     });
 }
+
+async function getMeetings(userUid) {
+    try {
+        const classesRef = collection(db, 'enrolled');
+        const classesQuery = query(classesRef, where('userUid', '==', userUid));
+        const classesSnap = await getDocs(classesQuery);
+
+        const meetingsRef = collection(db, 'meetings');
+
+        const meetingsPromises = classesSnap.docs.map(async (classDoc) => {
+            console.log('classUid:', classUid);
+
+            const meetingsQuery = query(meetingsRef, where('classUid', '==', classUid));
+            const meetingsSnap = await getDocs(meetingsQuery);
+            const meetingsData = meetingsSnap.docs.map(meetingDoc => meetingDoc.data());
+
+            console.log('meetingsData:', meetingsData);
+
+            return meetingsData;
+        });
+
+        const meetingsDataArrays = await Promise.all(meetingsPromises);
+        const meetings = meetingsDataArrays.flat();
+
+        return meetings;
+    } catch (error) {
+        console.error('Error loading meetings:', error);
+        throw error;
+    }
+}
+
 
 async function getEnrolledClasses(userUid) {
     try {
@@ -51,6 +83,7 @@ async function getEnrolledClasses(userUid) {
 
                 return {
                     uid: enrolledDoc.id,
+                    classUid: classDocSnap.id,
                     title: classDocSnap.data().title,
                     active: classDocSnap.data().active,
                     price: classDocSnap.data().price,
