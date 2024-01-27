@@ -3,10 +3,18 @@
 import { db, auth } from '$lib'
 import { onAuthStateChanged } from 'firebase/auth'
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import { browser } from '$app/environment';
+import { goto } from '$app/navigation';
 
 export async function load() {
     try {
         const user = await getAuthUser();
+
+        if (!user) {
+            if (browser) {
+                goto('/login')
+            }
+        }
 
         if (user) {
             const enrolled = await getEnrolledClasses(user.uid);
@@ -32,7 +40,9 @@ export async function load() {
 
 function getAuthUser() {
     return new Promise((resolve) => {
-        onAuthStateChanged(auth, (user) => resolve(user ? user : null));
+        onAuthStateChanged(auth, (user) =>
+            resolve(user ? user : null)
+        );
     });
 }
 
